@@ -1,0 +1,6 @@
+{
+  "invocationName" : "InsuranceOcrBot",
+  "shortDescription" : "This is InsuranceOcrBot",
+  "fullDescription" : null,
+  "sampleInvocations" : [ "An example utterance" ]
+}

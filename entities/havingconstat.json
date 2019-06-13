@@ -1,0 +1,21 @@
+{
+  "name" : "havingconstat",
+  "type" : "ENUMVALUES",
+  "enumValues" : [ {
+    "canonicalName" : "A",
+    "synonyms" : [ "a" ]
+  }, {
+    "canonicalName" : "B",
+    "synonyms" : [ "b" ]
+  } ],
+  "namedEntityRuleParams" : [ ],
+  "multiValue" : false,
+  "fuzzyMatch" : false,
+  "promptForDisambiguation" : true,
+  "botPrompts" : [ {
+    "text" : "Please enter Entity1",
+    "sequenceNr" : null
+  } ],
+  "validationRules" : [ ],
+  "compositeBagItems" : [ ]
+}

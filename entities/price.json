@@ -1,0 +1,20 @@
+{
+  "name" : "price",
+  "type" : "DERIVED",
+  "parentEntity" : "NUMBER",
+  "namedEntityRuleParams" : [ {
+    "value" : null,
+    "rule" : {
+      "name" : "FOLLOWINGPHRASE"
+    }
+  } ],
+  "multiValue" : false,
+  "fuzzyMatch" : false,
+  "promptForDisambiguation" : true,
+  "botPrompts" : [ {
+    "text" : "Please enter Entity1",
+    "sequenceNr" : null
+  } ],
+  "validationRules" : [ ],
+  "compositeBagItems" : [ ]
+}

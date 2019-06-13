@@ -1,0 +1,12 @@
+{
+  "type" : "CUSTOM",
+  "name" : "Taysir",
+  "version" : "1.1",
+  "url" : "https://67026755.ngrok.io/components",
+  "headers" : [ ],
+  "credentials" : {
+    "type" : "basic",
+    "username" : "taysir.shili@amazus.net"
+  },
+  "enabled" : false
+}

@@ -1,0 +1,9 @@
+{
+  "type" : "HOSTED",
+  "name" : "Test",
+  "version" : "1.1",
+  "packageFileName" : "ConstatBot-1.0.0.tgz",
+  "packageChecksum" : "11556a7e17229b29a19150d933d19a9d",
+  "runtime" : "node",
+  "enabled" : true
+}

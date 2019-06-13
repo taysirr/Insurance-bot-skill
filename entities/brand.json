@@ -1,0 +1,14 @@
+{
+  "name" : "brand",
+  "type" : "ENUMVALUES",
+  "namedEntityRuleParams" : [ ],
+  "multiValue" : false,
+  "fuzzyMatch" : false,
+  "promptForDisambiguation" : true,
+  "botPrompts" : [ {
+    "text" : "Please enter Entity2",
+    "sequenceNr" : null
+  } ],
+  "validationRules" : [ ],
+  "compositeBagItems" : [ ]
+}

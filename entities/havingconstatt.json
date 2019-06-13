@@ -1,0 +1,21 @@
+{
+  "name" : "havingconstatt",
+  "type" : "ENUMVALUES",
+  "enumValues" : [ {
+    "canonicalName" : "Yes",
+    "synonyms" : null
+  }, {
+    "canonicalName" : "no",
+    "synonyms" : null
+  } ],
+  "namedEntityRuleParams" : [ ],
+  "multiValue" : false,
+  "fuzzyMatch" : false,
+  "promptForDisambiguation" : true,
+  "botPrompts" : [ {
+    "text" : "Please enter Entity1",
+    "sequenceNr" : null
+  } ],
+  "validationRules" : [ ],
+  "compositeBagItems" : [ ]
+}

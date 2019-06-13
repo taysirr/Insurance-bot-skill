@@ -1,0 +1,696 @@
+metadata:
+  platformVersion: "1.1"
+main: true
+name: "InsuranceOcrBot"
+context:
+##################################################################Variable definition    
+  variables:
+    iresult: "nlpresult"
+    constat: "havingconstat"
+    pay: "havingconstatt"
+    Menu: "string"
+    brand: "string"
+    status: "string"
+    price: "int"
+    location: "string"
+    number: "int"
+    name: "string"
+    type: "string"
+    expiration: "string"
+    verifnumber: "int"
+    latitude: "int"
+    longitude: "int"
+    Code : "int"
+    Body1: "string"
+    Body2: "string"
+    Body3: "string"
+    Body4: "string"
+    Body: "string"
+    NamePolicyholder: "string"
+    SurnamePolicyholder: "string"
+    Timeaccident: "string"
+    AdressPolicyholder: "string"
+    EmailPolicy: "string"
+    MatriculeNumber: "string"
+    MatriculePays: "string"
+    Numcontrat: "string"
+    NumeroCarteVerte: "string"
+    NameConductor: "string"
+    SurnameConductor: "string"
+    AdressConductor: "string"
+    DrivingLicenceNum: "string"
+    CategoryLicence: "string"
+    DrivingLicenceDate: "string"
+    Dateofaccident: "string"
+    Placeofaccident: "string"
+    Witness: "string"
+    
+states:
+##################################################################Intent    
+  Intent:
+    component: "System.Intent"
+    properties:
+      variable: "iresult"
+    transitions:
+      actions:
+        Greeting: "Greeting"
+        UnresolvedIntent: "Unresolved"
+##################################################################Greeting
+  Greeting:
+    component: "System.Output"
+    properties:
+      text: "Hello ${profile.firstName}, I am ConstautoBot and I will be glad to assist you. :)"
+      keepTurn: true
+    transitions:
+      actions:
+        Menu: "Menu"
+        UnresolvedIntent: "Unresolved"
+
+##################################################################Menu List
+  Menu:
+    component: "System.CommonResponse"
+    properties:
+      processUserMessage: true
+    
+      metadata:
+        responseItems:
+        - type: "text"
+          text: " How can I help you ?"
+        - type: "cards"
+          cardLayout: "horizontal"
+          cards:
+          - title: "Motor Accident Report"
+            description: "Submit an anccident report"
+            imageUrl: "https://sapeurs-pompiers35.fr/content/uploads/2017/07/Accidents-de-la-route-1024x683.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "AccidentReport"
+              name: "AccidentReport"  
+          - title: "Services"
+            description: "Services that we offer"
+            imageUrl: "https://experform.com/content/img/gallery/services.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Insurance"
+              name: "Insurance"
+          - title: "Payement"
+            description: "E_Payement"
+            imageUrl: "http://blog.quikkloan.com/wp-content/uploads/2018/11/hand-with-credit-card-laptop_1232-619-1.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Payement"
+              name: "Payement"
+          - title: "X Locations"
+            description: "check X locations"
+            imageUrl: "https://aetea.com/wp-content/uploads/2016/07/locations-img.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "locations"
+              name: "locations"     
+          - title: "Contact Us"
+            imageUrl: "https://www.cibil.com/resources/img/articles/CustomerSupport_980x398_v1.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Contact"
+              name: "Contact"
+          - title: "About Us"
+            imageUrl: "https://firstmarkservices.com/wp-content/uploads/banner-about-us.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Contact"
+              name: "Contact"      
+    transitions: 
+      actions:
+        Payement: "InstantPayement"
+        locations: "locations" 
+        AccidentReport: "AccidentReport"
+        Contact: "Contact"
+        Insurance: "Insurance" 
+ 
+
+################################################################## InstantApp Payement
+  InstantPayement:
+    component: "System.Interactive"
+    properties:
+      sourceVariableList: "number,name,type,expiration,verifnumber"
+      variable: "outputMessage" 
+      id: "InstantPayement"
+      prompt: "Please click the link below to proceed for payement"
+      linkLabel: "Link"
+    transitions: {}
+  exitBot:
+     component: "System.Output"
+     properties:
+       text: "thanks for your interest! :)"
+     transitions:
+       return: "done"
+################################################################## Location
+  locations:
+    component: "System.CommonResponse"
+    properties:
+      variable: "location"
+      metadata:
+        responseItems:
+        - text: "Send me your position please !"
+          type: "text"
+          name: "What location"
+          separateBubbles: true
+        globalActions:
+        - label: "Location"
+          type: "location"
+          name: "Location"
+      processUserMessage: true
+    transitions:
+      actions:
+        next: "Confirmation"
+  Confirmation:
+    component: "System.CommonResponse"
+    properties:
+      metadata:
+        responseItems:
+        - text: "The nearest agence from your location GPS adress is Résidence Tunis-Carthage, Ariana  :)"
+          type: "text"
+          name: "conf"
+          separateBubbles: true
+    transitions: {}
+################################################################## Accident report
+  AccidentReport:    
+    component: "System.CommonResponse"
+    properties:
+      processUserMessage: true
+      metadata:
+        responseItems:
+        - type: "text"
+          text: "Do you have an accident statement ?"
+          name: "hello"
+          separateBubbles: true
+          actions:
+          - label: "YES"
+            type: "postback"
+            payload:
+              action: "HavingConstat"
+            name: "HavingConstat"
+          - label: "NO"
+            type: "postback"
+            payload:
+              action: "messagee"
+            name: "messagee"
+    transitions:
+      actions:
+        HavingConstat: "HavingConstat"
+        messagee: "messagee"
+        textReceived: "Intent"      
+################################################################## Havingconstat?
+  HavingConstat:
+    component: "System.Text"
+    properties:
+      prompt: "which vehicle are you A or B"
+      variable: "constat"
+    transitions:
+      actions:
+        image: "SetCode1"
+################################################################## Havingconstat?
+  SetCode1:
+     component: "System.SetVariable"
+     properties:
+       variable: "Code"
+       value: 1
+     transitions: {}
+  
+  commonPart:
+    component: "System.Output"
+    properties:
+      text: "please upload an image for the policyholder part of your accident statement ."
+    transitions:
+      actions: 
+        start1: "start1"      
+  start1:
+    component: "ts.Insurance.BotComponent"
+    properties:
+      Code: "${Code.value}"    
+      Body1: "Body1" 
+
+ ##############################################################################2eme image    
+  SetCode2:
+     component: "System.SetVariable"
+     properties:
+       variable: "Code"
+       value: 2
+     transitions: {}
+  firstPart:
+    component: "System.Output"
+    properties:
+      text: "please upload an image for the driver part of your accident statement ."
+    transitions:
+      actions: 
+        start: "start2" 
+  start2:
+    component: "ts.Insurance.BotComponent"
+    properties:
+      Code: "${Code.value}"    
+      Body2: "Body2"
+################################################################################3eme image   
+  SetCode3:
+     component: "System.SetVariable"
+     properties:
+       variable: "Code"
+       value: 3
+    
+  secondPart:
+    component: "System.Output"
+    properties:
+      text: "please upload an image for the insurance part of your accident statement ."
+    transitions:
+      actions: 
+        start: "start3"
+  start3:
+    component: "ts.Insurance.BotComponent"
+    properties:
+      Code: "${Code.value}"    
+      Body3: "Body3"
+      
+  SetCode4:
+     component: "System.SetVariable"
+     properties:
+       variable: "Code"
+       value: 4
+    
+  commonpart:
+    component: "System.Output"
+    properties:
+      text: "please upload an image for the common part of your accident statement ."
+    transitions:
+      actions: 
+        start: "start"
+ 
+################################################################################Custom Component      
+  start:
+    component: "ts.Insurance.BotComponent"
+    properties:
+      Code: "${Code.value}"  
+      Body1: "${Body1.value}" 
+      Body2: "${Body2.value}"
+      Body3: "${Body3.value}" 
+      Body4: "Body4"
+      Body: "Body"
+
+  champ1:
+     component: "System.SetVariable"
+     properties:
+       variable: "NamePolicyholder"
+       value: "${Body.value.Preneur.preneurA.name}"
+  
+  champ2:
+     component: "System.SetVariable"
+     properties:
+       variable: "SurnamePolicyholder"
+       value: "${Body.value.Preneur.preneurA.prenom}" 
+       
+       
+  champ3:
+     component: "System.SetVariable"
+     properties:
+       variable: "AdressPolicyholder"
+       value: "${Body.value.Preneur.preneurA.codepostale} , ${Body.value.Preneur.preneurA.adresse}"
+      
+  champ4:
+     component: "System.SetVariable"
+     properties:
+       variable: "EmailPolicy"
+       value: "${Body.value.Preneur.preneurA.contact}"
+       
+  champ5:
+     component: "System.SetVariable"
+     properties:
+       variable: "MatriculeNumber"
+       value: "${Body.value.Preneur.preneurA.vehicule.numMatricule}"
+       
+  champ6:
+     component: "System.SetVariable"
+     properties:
+       variable: "MatriculePays"
+       value: "${Body.value.Preneur.preneurA.vehicule.paysMatricule}"
+  champ7:
+     component: "System.SetVariable"
+     properties:
+       variable: "Numcontrat"
+       value: "${Body.value.Assurance.assuranceA.numcontrat}"
+       
+  champ8:
+     component: "System.SetVariable"
+     properties:
+       variable: "NumeroCarteVerte"
+       value: "${Body.value.Assurance.assuranceA.numcarteverte}"
+  champ9:
+     component: "System.SetVariable"
+     properties:
+       variable: "NameConductor"
+       value: "${Body.value.Conducteur.conducteurA.name}"
+  champ10:
+     component: "System.SetVariable"
+     properties:
+       variable: "SurnameConductor"
+       value: "${Body.value.Conducteur.conducteurA.prenom}"
+  champ11:
+    component: "System.SetVariable"
+    properties:
+      variable: "AdressConductor"
+      value: "${Body.value.Conducteur.conducteurA.adresse} , ${Body.value.Conducteur.conducteurA.pays}"
+  champ12:
+    component: "System.SetVariable"
+    properties:
+      variable: "DrivingLicenceNum"
+      value: "${Body.value.Conducteur.conducteurA.permisdeconduirenum}"
+   
+  champ13:
+     component: "System.SetVariable"
+     properties:
+       variable: "CategoryLicence"
+       value: "${Body.value.Conducteur.conducteurA.categoriepermis}"
+  champ14:
+     component: "System.SetVariable"
+     properties:
+       variable: "DrivingLicenceDate"
+       value: "${Body.value.Conducteur.conducteurA.permisvalablejusqu}"
+  champ15:
+     component: "System.SetVariable"
+     properties:
+       variable: "Dateofaccident"
+       value: "${Body.value.commonpart.dateAccident}"
+  champ16:
+     component: "System.SetVariable"
+     properties:
+       variable: "Placeofaccident"
+       value: "${Body.value.commonpart.pays}"
+       
+  champ17:
+     component: "System.SetVariable"
+     properties:
+       variable: "Witness"
+       value: "${Body.value.commonpart.temoins}"
+ 
+  
+##################################################################InstantApp Accident
+  InstantApp:
+    component: "System.Interactive"
+    properties:
+      sourceVariableList: "NamePolicyholder,SurnamePolicyholder,AdressPolicyholder,EmailPolicy,MatriculeNumber,MatriculePays,Numcontrat,NumeroCarteVerte,NameConductor,SurnameConductor,AdressConductor,DrivingLicenceNum,CategoryLicence,DrivingLicenceDate,Dateofaccident,Placeofaccident,Witness,Timeaccident"
+      variable: "outputMessage" 
+      id: "Instant_app"
+      prompt: "Please click the link below to check your infomation"
+      linkLabel: "Link"
+    transitions:
+      actions:
+        message: "messagee"
+        textReceived: "Intent"
+ 
+################################################################## message
+  messagee:
+    component: "System.Output"
+    properties:
+      text: "Thank you ,your reclammation has been saved .tell me if you need something else!"
+    transitions:
+        return: "done"        
+################################################################## Contact Us  
+  Contact:
+    component: "System.Output"
+    properties:
+      text: "Sorry, this page isn't available Now :("
+    transitions:
+        return: "done"  
+################################################################## Insurance List
+  Insurance:
+    component: "System.CommonResponse"
+    properties:
+      processUserMessage: true
+      metadata:
+        responseItems:
+        - type: "text"
+          text: " You can choose one service of them:"
+        - type: "cards"
+          cardLayout: "horizontal"
+          cards:
+          - title: "Health Insurance"
+            imageUrl: "https://previews.123rf.com/images/valery_potapova/valery_potapova1604/valery_potapova160400038/54580922-stethoscope-and-calculator-symbol-for-health-care-costs-or-medical-insurance.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Contact"
+              name: "Contact"
+          - title: "Home Insurance"
+            imageUrl: "https://www.financedoneright.com/wp-content/uploads/2018/04/homeinsurance.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Contact"
+              name: "Contact"
+          - title: "Vehicle Insurance"
+            imageUrl: "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2018/08/29/724440-insurance-motor-thinkstock-083018.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "MotorInsurance"
+              name: "MotorInsurance" 
+    transitions: 
+      actions:
+        MotorInsurance: "MotorInsurance"
+        Contact: "Contact"
+################################################################## Motor Insurance List
+  MotorInsurance:
+    component: "System.CommonResponse"
+    properties:
+      processUserMessage: true
+      metadata:
+        responseItems:
+        - type: "text"
+          text: " Because your security requires a complete and effective guarantee. We offer you protection for your vehicle against:"
+        - type: "cards"
+          cardLayout: "horizontal"
+          cards:
+          - title: "Overcome any flight to your car"
+            imageUrl: "https://mobile-cdn.123rf.com/300wm/djedzura/djedzura1605/djedzura160500084/56795218-voleur-de-voiture-essayant-de-casser-dans-une-voiture-avec-un-tournevis-voleur-de-voiture-vol-de-voi.jpg?ver=6"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Flight"
+              name: "Flight"
+          - title: "Prenvent your car fire"
+            imageUrl: "https://pngimage.net/wp-content/uploads/2018/06/flamme-feu-dessin-png-3.png"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "Fire"
+              name: "Fire"
+          - title: "CollisionDamage"
+            imageUrl: "http://im.rediff.com/getahead/2016/nov/04carinsurance.jpg"
+            actions: 
+            - label: "Choose"
+              type: "postback"
+              payload: 
+                action: "CollisionDamage"
+              name: "CollisionDamage"
+    transitions: 
+      actions:
+        Flight: "Flight"
+        Fire: "Fire"
+        CollisionDamage: "CollisionDamage"
+####################################################### Fire
+  Flight:
+    component: "System.Output"
+    properties:
+      text: "Please provide us with :"     
+      keepTurn: true
+    transitions:
+      actions:
+        MotorPric: "MotorPric"
+  MotorPric:
+    component: "System.Text"
+    properties:
+      prompt: " Motor Price"
+      variable: "price"
+    transitions:
+      actions:
+        MotorSta: "MotorSta"
+  MotorSta:        
+    component: "System.CommonResponse"
+    properties:
+      processUserMessage: true
+      metadata:
+        responseItems:
+        - type: "text"
+          text: "Motor State"
+          name: "hello"
+          separateBubbles: true
+          actions:
+          - label: "New"
+            type: "postback"
+            payload:
+              action: "MotorBrand"
+            name: "MotorBrand"
+          - label: "Old"
+            type: "postback"
+            payload:
+              action: "MotorBrand"
+            name: "MotorBrand"
+    transitions:
+      actions:
+        MotorBra: "MotorBra"
+  MotorBra:    
+    component: "System.Text"
+    properties:
+      prompt: "Motor Brand"
+      variable: "brand"
+    transitions:
+      actions:
+        FlightMessage: "FlightMessage"
+  FlightMessage:
+    component: "System.Output"
+    properties:
+      text: "You are guaranteed against the disappearance of your vehicle or its deterioration following a theft or attempted theft."     
+    transitions:
+        return: "done"
+####################################################### Flight
+  Fire:
+    component: "System.Output"
+    properties:
+      text: "Please provide us with :"     
+      keepTurn: true
+    transitions:
+      actions:
+        MotorPri: "MotorPri"
+  MotorPri:
+    component: "System.Text"
+    properties:
+      prompt: " Motor Price"
+      variable: "price"
+    transitions:
+      actions:
+        MotorStat: "MotorStat"
+  MotorStat:        
+    component: "System.CommonResponse"
+    properties:
+      processUserMessage: true
+      metadata:
+        responseItems:
+        - type: "text"
+          text: "Motor State"
+          name: "hello"
+          separateBubbles: true
+          actions:
+          - label: "New"
+            type: "postback"
+            payload:
+              action: "MotorBrand"
+            name: "MotorBrand"
+          - label: "Old"
+            type: "postback"
+            payload:
+              action: "MotorBrand"
+            name: "MotorBrand"
+    transitions:
+      actions:
+        MotorBran: "MotorBran"
+  MotorBran:    
+    component: "System.Text"
+    properties:
+      prompt: "Motor Brand"
+      variable: "brand"
+    transitions:
+      actions:
+        FireMessage: "FireMessage"
+  FireMessage:
+    component: "System.Output"
+    properties:
+      text: "A cover of your vehicle with essential accessories against damage due to fire, explosions or lightning"     
+    transitions:
+        return: "done"
+################################################################## Motor Insurance Information
+  CollisionDamage:    
+    component: "System.Output"
+    properties:
+      text: "Please provide us with :"     
+      keepTurn: true
+    transitions:
+      actions:
+        MotorPrice: "MotorPrice"
+  MotorPrice:
+    component: "System.Text"
+    properties:
+      prompt: "Motor Price"
+      variable: "price"
+    transitions:
+      actions:
+        MotorState: "MotorState"
+  MotorState:        
+    component: "System.CommonResponse"
+    properties:
+      processUserMessage: true
+      metadata:
+        responseItems:
+        - type: "text"
+          text: "Motor State"
+          name: "hello"
+          separateBubbles: true
+          actions:
+          - label: "New"
+            type: "postback"
+            payload:
+              action: "MotorBrand"
+            name: "MotorBrand"
+          - label: "Old"
+            type: "postback"
+            payload:
+              action: "MotorBrand"
+            name: "MotorBrand"
+    transitions:
+      actions:
+        MotorBrand: "MotorBrand"
+  MotorBrand:    
+    component: "System.Text"
+    properties:
+      prompt: "Motor Brand"
+      variable: "brand"
+    transitions:
+      actions:
+        pdf: "pdf"
+  pdf:    
+    component: "System.Interactive"
+    properties:
+      sourceVariableList: 
+      variable: "outputMessage" 
+      id: "Instant_pdf"
+      linkLabel: "Open File"
+    transitions: 
+      actions:
+        Menu: "Menu"
+##################################################################Unresolved
+  Unresolved:
+    component: "System.CommonResponse"
+    properties:
+      metadata:
+        responseItems:
+        - type: "text"
+          text: "Sorry, I don't understand you, I am not human. Please try another\
+            \ sentence."
+          name: "Sorry"
+          separateBubbles: true
+      processUserMessage: false
+    transitions:
+      return: "done"

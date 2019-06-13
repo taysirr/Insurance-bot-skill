@@ -1,0 +1,56 @@
+{
+  "name" : "status",
+  "patternExpression" : "New",
+  "type" : "ENUMVALUES",
+  "enumValues" : [ {
+    "canonicalName" : "New",
+    "synonyms" : [ "new" ]
+  }, {
+    "canonicalName" : "Old",
+    "synonyms" : [ "old" ]
+  } ],
+  "parentEntity" : "brand",
+  "namedEntityRuleParams" : [ {
+    "value" : null,
+    "rule" : {
+      "name" : "FOLLOWINGPHRASE"
+    }
+  } ],
+  "multiValue" : false,
+  "fuzzyMatch" : false,
+  "promptForDisambiguation" : true,
+  "botPrompts" : [ {
+    "text" : "Please enter Entity3",
+    "sequenceNr" : null
+  } ],
+  "validationRules" : [ ],
+  "compositeBagItems" : [ {
+    "sequenceNr" : 1,
+    "name" : "BagItem1",
+    "type" : "ENTITY",
+    "entityName" : "ADDRESS",
+    "entityUsage" : {
+      "name" : "ADDRESS",
+      "description" : null,
+      "patternExpression" : null,
+      "type" : "SYSTEM",
+      "enumValues" : null,
+      "prompts" : null,
+      "parentEntity" : null,
+      "nextUpdateAt" : null,
+      "multiValue" : false,
+      "fuzzyMatch" : false,
+      "promptForDisambiguation" : true,
+      "disambiguationPrompt" : null,
+      "enumRangeSize" : null,
+      "errorMessage" : null,
+      "namedEntityRuleParams" : [ ],
+      "botPrompts" : [ ],
+      "validationRules" : [ ]
+    },
+    "multiValue" : false,
+    "fuzzyMatch" : false,
+    "outOfOrderExtraction" : true,
+    "promptForDisambiguation" : true
+  } ]
+}
